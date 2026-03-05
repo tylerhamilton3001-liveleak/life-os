@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Kayden & Paige Life Dashboard</title>
+<title>Kayden & Paige Life OS</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -13,30 +14,26 @@
 
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
 </head>
 
 <body>
 
-<!-- LOGIN SCREEN -->
+<!-- LOGIN -->
 
-<div id="authSection" class="auth-container">
+<div id="authSection" class="auth">
 
-<div class="login-card">
+<div class="loginCard">
 
 <h1>Kayden & Paige</h1>
-<p class="subtitle">Life Dashboard</p>
+<p>Life Dashboard</p>
 
-<input id="email" type="email" placeholder="Email">
+<input id="email" placeholder="Email">
 
-<div class="password-row">
 <input id="password" type="password" placeholder="Password">
-<button onclick="togglePassword()">👁</button>
-</div>
 
-<button class="primary" onclick="login()">Login</button>
-<button class="secondary" onclick="signup()">Create Account</button>
+<button onclick="login()">Login</button>
+<button onclick="signup()">Create Account</button>
 
 <p id="authError"></p>
 
@@ -44,33 +41,29 @@
 
 </div>
 
-
 <!-- MAIN APP -->
 
 <div id="appSection">
 
-<!-- SIDEBAR -->
-
 <div class="sidebar">
 
-<h2>Dashboard</h2>
+<h2>Life OS</h2>
 
-<button onclick="showPage('dashboard')">Home</button>
+<button onclick="showPage('dashboard')">Dashboard</button>
 <button onclick="showPage('money')">Money Plan</button>
-<button onclick="showPage('jobsKayden')">Jobs — Kayden</button>
-<button onclick="showPage('jobsPaige')">Jobs — Paige</button>
+<button onclick="showPage('jobs')">Job Finder</button>
+<button onclick="showPage('jobtracker')">Applications</button>
 <button onclick="showPage('housing')">Housing</button>
-<button onclick="showPage('transition')">Transition Plan</button>
-<button onclick="showPage('countdowns')">Countdowns</button>
+<button onclick="showPage('schedule')">Daily Plan</button>
 <button onclick="showPage('tasks')">To-Do</button>
+<button onclick="showPage('fitness')">Fitness</button>
+<button onclick="showPage('stores')">Stores & Food</button>
+<button onclick="showPage('countdowns')">Countdowns</button>
 <button onclick="showPage('relationship')">Us</button>
 
-<button onclick="logout()" class="logout">Logout</button>
+<button onclick="logout()">Logout</button>
 
 </div>
-
-
-<!-- MAIN CONTENT -->
 
 <div class="main">
 
@@ -85,23 +78,23 @@
 
 <div class="card">
 <h3>Time at Job Corps</h3>
-<p id="timeSince"></p>
+<p id="jobCorpsTime"></p>
+</div>
+
+<div class="card">
+<h3>Weather</h3>
+<p id="weather"></p>
 </div>
 
 <div class="card">
 <h3>Savings Progress</h3>
-<input id="savingsInput" placeholder="Current savings $">
+<input id="savingsInput" placeholder="Enter savings">
 <button onclick="updateSavings()">Update</button>
 <p id="savingsOutput"></p>
 </div>
 
 <div class="card">
-<h3>Weather</h3>
-<p id="weather">Loading...</p>
-</div>
-
-<div class="card">
-<h3>Smart Suggestion</h3>
+<h3>Suggestion</h3>
 <p id="suggestion"></p>
 </div>
 
@@ -111,7 +104,6 @@
 
 </div>
 
-
 <!-- MONEY -->
 
 <div id="money" class="page">
@@ -120,7 +112,7 @@
 
 <div class="card">
 
-<h3>Pay Calculator</h3>
+<h3>Paycheck Calculator</h3>
 
 <input id="hourly" placeholder="Hourly Pay">
 <input id="hours" placeholder="Hours per week">
@@ -133,118 +125,122 @@
 
 <div class="card">
 
-<h3>Budget Planner</h3>
+<h3>Budget</h3>
 
-<input placeholder="Rent ($150)">
+<input placeholder="Rent $150">
 <input placeholder="Food">
 <input placeholder="Phone">
-<input placeholder="Transport">
+<input placeholder="Rides">
 <input placeholder="Savings">
+<input placeholder="Emergency">
 
 </div>
 
-</div>
-
-
-<!-- JOBS KAYDEN -->
-
-<div id="jobsKayden" class="page">
-
-<h1>Jobs — Kayden</h1>
-
-<div class="card">
-<p>Virtual Assistant</p>
-<p>Data Entry</p>
-<p>Office Support</p>
-<p>Court Clerk</p>
-<p>Clinic Aide</p>
-</div>
+<p>“Start small. Build consistently.”</p>
 
 </div>
 
+<!-- JOB FINDER -->
 
-<!-- JOBS PAIGE -->
+<div id="jobs" class="page">
 
-<div id="jobsPaige" class="page">
-
-<h1>Jobs — Paige</h1>
-
-<div class="card">
-<p>Virtual Receptionist</p>
-<p>Office Support</p>
-<p>School Clerk</p>
-<p>Government Aide</p>
-</div>
-
-</div>
-
-
-<!-- HOUSING -->
-
-<div id="housing" class="page">
-
-<h1>Housing & Trailer Setup</h1>
+<h1>Job Suggestions</h1>
 
 <div class="card">
 
-<p>Living with Aiden & girlfriend</p>
-<p>Rent: $150</p>
+<h3>Kayden</h3>
 
 <ul>
-<li>Bed</li>
-<li>Shelves</li>
-<li>Table</li>
-<li>Kitchen Setup</li>
-<li>Cleaning Supplies</li>
+
+<li>Virtual Assistant</li>
+<li>Data Entry</li>
+<li>Office Support</li>
+<li>Court Clerk</li>
+<li>Clinic Aide</li>
+
+</ul>
+
+<h3>Paige</h3>
+
+<ul>
+
+<li>Virtual Receptionist</li>
+<li>Office Support</li>
+<li>School Clerk</li>
+<li>Clinic Desk</li>
+
 </ul>
 
 </div>
 
 </div>
 
+<!-- JOB TRACKER -->
 
-<!-- TRANSITION -->
+<div id="jobtracker" class="page">
 
-<div id="transition" class="page">
+<h1>Applications</h1>
 
-<h1>Transition Plan</h1>
+<input id="jobCompany" placeholder="Company">
+
+<input id="jobTitle" placeholder="Position">
+
+<button onclick="addJob()">Add</button>
+
+<ul id="jobList"></ul>
+
+</div>
+
+<!-- HOUSING -->
+
+<div id="housing" class="page">
+
+<h1>Trailer Setup</h1>
 
 <div class="card">
 
-<p>Savings readiness</p>
-<p>Job readiness</p>
-<p>Housing readiness</p>
-<p>Transportation readiness</p>
+<p>Living with Aiden & girlfriend (Rent $150)</p>
 
-</div>
+<h3>Furniture</h3>
 
-<p class="quote">
-“We’re preparing not just to leave — but to grow.”
-</p>
+<ul>
 
-</div>
+<li>Bed</li>
+<li>Shelves</li>
+<li>Table</li>
+<li>Kitchen</li>
+<li>Cleaning Supplies</li>
 
+</ul>
 
-<!-- COUNTDOWNS -->
-
-<div id="countdowns" class="page">
-
-<h1>Countdowns</h1>
-
-<div class="card">
-<p id="jobCorpsTimer"></p>
 </div>
 
 </div>
 
+<!-- SCHEDULE -->
+
+<div id="schedule" class="page">
+
+<h1>Job Corps Daily Plan</h1>
+
+<ul>
+
+<li>Morning routine</li>
+<li>Job Corps training</li>
+<li>Skill practice</li>
+<li>Apply to jobs</li>
+<li>Workout</li>
+<li>Couple planning</li>
+
+</ul>
+
+</div>
 
 <!-- TASKS -->
 
 <div id="tasks" class="page">
 
 <h1>To-Do & Goals</h1>
-
-<div class="card">
 
 <input id="taskInput" placeholder="Add task">
 
@@ -254,8 +250,52 @@
 
 </div>
 
+<!-- FITNESS -->
+
+<div id="fitness" class="page">
+
+<h1>Fitness Tracker</h1>
+
+<input placeholder="Water intake">
+
+<input placeholder="Steps">
+
+<input placeholder="Workout today">
+
 </div>
 
+<!-- STORES -->
+
+<div id="stores" class="page">
+
+<h1>Nearby Stores & Restaurants</h1>
+
+<ul>
+
+<li>Walmart</li>
+<li>Target</li>
+<li>Aldi</li>
+<li>Dollar Tree</li>
+<li>CVS</li>
+<li>McDonald's</li>
+<li>Subway</li>
+<li>Taco Bell</li>
+
+</ul>
+
+<div id="map"></div>
+
+</div>
+
+<!-- COUNTDOWNS -->
+
+<div id="countdowns" class="page">
+
+<h1>Countdowns</h1>
+
+<p id="countdown"></p>
+
+</div>
 
 <!-- RELATIONSHIP -->
 
@@ -263,17 +303,15 @@
 
 <h1>Us</h1>
 
-<div class="card">
-
 <p>Our Why</p>
 <p>Relationship goals</p>
-<p>What we're building</p>
+<p>What we’re building</p>
+<p>Pride list</p>
+<p>Support list</p>
 
-</div>
+<p>“We are not perfect — we are growing.”</p>
 
-<p class="quote">
-“We are not perfect — we are growing.”
-</p>
+<p>“We don’t have to be ready. We just have to be willing.”</p>
 
 </div>
 
