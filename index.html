@@ -12,38 +12,9 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
-
 </head>
 
 <body>
-
-<!-- LOGIN -->
-
-<div id="authSection" class="auth">
-
-<div class="loginCard">
-
-<h1>Kayden & Paige</h1>
-<p>Life Dashboard</p>
-
-<input id="email" placeholder="Email">
-
-<input id="password" type="password" placeholder="Password">
-
-<button onclick="login()">Login</button>
-<button onclick="signup()">Create Account</button>
-
-<p id="authError"></p>
-
-</div>
-
-</div>
-
-<!-- MAIN APP -->
-
-<div id="appSection">
 
 <div class="sidebar">
 
@@ -51,7 +22,7 @@
 
 <button onclick="showPage('dashboard')">Dashboard</button>
 <button onclick="showPage('money')">Money Plan</button>
-<button onclick="showPage('jobs')">Job Finder</button>
+<button onclick="showPage('jobs')">Jobs</button>
 <button onclick="showPage('jobtracker')">Applications</button>
 <button onclick="showPage('housing')">Housing</button>
 <button onclick="showPage('schedule')">Daily Plan</button>
@@ -60,8 +31,6 @@
 <button onclick="showPage('stores')">Stores & Food</button>
 <button onclick="showPage('countdowns')">Countdowns</button>
 <button onclick="showPage('relationship')">Us</button>
-
-<button onclick="logout()">Logout</button>
 
 </div>
 
@@ -72,7 +41,7 @@
 <div id="dashboard" class="page active">
 
 <h1>Kayden & Paige’s Life Dashboard</h1>
-<p>Building our future together — one step at a time.</p>
+<p class="subtitle">Building our future together — one step at a time.</p>
 
 <div class="grid">
 
@@ -88,13 +57,21 @@
 
 <div class="card">
 <h3>Savings Progress</h3>
-<input id="savingsInput" placeholder="Enter savings">
+
+<input id="savingsInput" placeholder="Enter savings amount">
+
 <button onclick="updateSavings()">Update</button>
+
+<div class="progress">
+<div id="savingsBar"></div>
+</div>
+
 <p id="savingsOutput"></p>
+
 </div>
 
 <div class="card">
-<h3>Suggestion</h3>
+<h3>This Week's Focus</h3>
 <p id="suggestion"></p>
 </div>
 
@@ -112,10 +89,10 @@
 
 <div class="card">
 
-<h3>Paycheck Calculator</h3>
+<h3>Paycheck Breakdown</h3>
 
-<input id="hourly" placeholder="Hourly Pay">
-<input id="hours" placeholder="Hours per week">
+<input id="hourly" placeholder="Hourly Rate">
+<input id="hours" placeholder="Hours per Week">
 
 <button onclick="calculatePay()">Calculate</button>
 
@@ -127,24 +104,30 @@
 
 <h3>Budget</h3>
 
-<input placeholder="Rent $150">
-<input placeholder="Food">
-<input placeholder="Phone">
-<input placeholder="Rides">
-<input placeholder="Savings">
-<input placeholder="Emergency">
+<input id="rent" placeholder="Rent $150">
+<input id="food" placeholder="Food">
+<input id="phone" placeholder="Phone">
+<input id="rides" placeholder="Rides">
+<input id="savings" placeholder="Savings">
+<input id="emergency" placeholder="Emergency">
+
+<button onclick="calculateBudget()">Calculate Budget</button>
+
+<p id="budgetOutput"></p>
 
 </div>
 
-<p>“Start small. Build consistently.”</p>
+<p class="note">“Start small. Build consistently.”</p>
 
 </div>
 
-<!-- JOB FINDER -->
+<!-- JOBS -->
 
 <div id="jobs" class="page">
 
 <h1>Job Suggestions</h1>
+
+<div class="grid">
 
 <div class="card">
 
@@ -159,6 +142,10 @@
 <li>Clinic Aide</li>
 
 </ul>
+
+</div>
+
+<div class="card">
 
 <h3>Paige</h3>
 
@@ -175,17 +162,18 @@
 
 </div>
 
+</div>
+
 <!-- JOB TRACKER -->
 
 <div id="jobtracker" class="page">
 
-<h1>Applications</h1>
+<h1>Job Application Tracker</h1>
 
 <input id="jobCompany" placeholder="Company">
-
 <input id="jobTitle" placeholder="Position">
 
-<button onclick="addJob()">Add</button>
+<button onclick="addJob()">Add Job</button>
 
 <ul id="jobList"></ul>
 
@@ -195,11 +183,19 @@
 
 <div id="housing" class="page">
 
-<h1>Trailer Setup</h1>
+<h1>Housing & Trailer Setup</h1>
 
 <div class="card">
 
-<p>Living with Aiden & girlfriend (Rent $150)</p>
+<h3>Trailer Checklist</h3>
+
+<ul>
+
+<li>Roof inspection</li>
+<li>Plumbing check</li>
+<li>Electric check</li>
+
+</ul>
 
 <h3>Furniture</h3>
 
@@ -208,10 +204,12 @@
 <li>Bed</li>
 <li>Shelves</li>
 <li>Table</li>
-<li>Kitchen</li>
-<li>Cleaning Supplies</li>
+<li>Kitchen items</li>
+<li>Cleaning supplies</li>
 
 </ul>
+
+<p>Living with Aiden & girlfriend — Rent $150</p>
 
 </div>
 
@@ -221,7 +219,7 @@
 
 <div id="schedule" class="page">
 
-<h1>Job Corps Daily Plan</h1>
+<h1>Job Corps Daily Schedule</h1>
 
 <ul>
 
@@ -256,11 +254,9 @@
 
 <h1>Fitness Tracker</h1>
 
-<input placeholder="Water intake">
-
+<input placeholder="Water Intake">
 <input placeholder="Steps">
-
-<input placeholder="Workout today">
+<input placeholder="Workout Today">
 
 </div>
 
@@ -277,9 +273,9 @@
 <li>Aldi</li>
 <li>Dollar Tree</li>
 <li>CVS</li>
+<li>Walgreens</li>
 <li>McDonald's</li>
 <li>Subway</li>
-<li>Taco Bell</li>
 
 </ul>
 
@@ -312,8 +308,6 @@
 <p>“We are not perfect — we are growing.”</p>
 
 <p>“We don’t have to be ready. We just have to be willing.”</p>
-
-</div>
 
 </div>
 
