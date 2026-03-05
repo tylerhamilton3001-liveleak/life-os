@@ -1,0 +1,111 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: #0e0e11;
+  color: #fff;
+}
+
+.app {
+  display: flex;
+}
+
+.sidebar {
+  width: 240px;
+  background: #15151a;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar button {
+  background: none;
+  border: none;
+  color: #c8c8c8;
+  padding: 10px 0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sidebar button:hover {
+  color: #fff;
+}
+
+main {
+  flex: 1;
+  padding: 20px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.menu-btn {
+  background: none;
+  border: none;
+  color: #c8c8c8;
+  font-size: 20px;
+  display: none;
+}
+
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+.grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.card {
+  background: #1a1a1f;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(200,200,200,0.05);
+}
+
+.progress {
+  background: #222;
+  height: 8px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress div {
+  height: 100%;
+  background: #c8c8c8;
+  width: 40%;
+}
+
+.quote {
+  margin-top: 20px;
+  color: #c8c8c8;
+  text-align: center;
+}
+
+.note {
+  color: #c8c8c8;
+  font-style: italic;
+}
+
+@media(max-width:768px){
+  .sidebar {
+    position: fixed;
+    left: -260px;
+    top: 0;
+    height: 100%;
+    transition: 0.3s;
+  }
+  .sidebar.open {
+    left: 0;
+  }
+  .menu-btn {
+    display: block;
+  }
+}
