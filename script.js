@@ -34,3 +34,32 @@ function calculatePay() {
   document.getElementById("payResult").innerText =
     "Monthly (after est. tax): $" + takeHome.toFixed(2);
 }
+
+/* PASSWORD TOGGLE */
+function togglePassword(){
+  const input = document.getElementById("password");
+  input.type = input.type === "password" ? "text" : "password";
+}
+
+/* LOGIN LOADER */
+function showLoader(show){
+  document.getElementById("loginLoader").classList.toggle("hidden", !show);
+  document.getElementById("loginText").style.display = show ? "none" : "inline";
+}
+
+/* AUTH */
+function login(){
+  showLoader(true);
+  auth.signInWithEmailAndPassword(email.value,password.value)
+  .catch(e=>{
+    document.getElementById("authError").innerText = e.message;
+  })
+  .finally(()=>showLoader(false));
+}
+
+function signup(){
+  auth.createUserWithEmailAndPassword(email.value,password.value)
+  .catch(e=>{
+    document.getElementById("authError").innerText = e.message;
+  });
+}
