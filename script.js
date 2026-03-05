@@ -122,3 +122,14 @@ function generateSuggestions(){
   const random = suggestions[Math.floor(Math.random()*suggestions.length)];
   console.log("Smart Suggestion:", random);
 }
+
+fetch("https://api.open-meteo.com/v1/forecast?latitude=40.7&longitude=-74&current_weather=true")
+.then(res=>res.json())
+.then(data=>{
+  const temp = data.current_weather.temperature;
+  document.getElementById("weather").innerText =
+    "Current temperature: " + temp + "°C";
+})
+.catch(()=> {
+  document.getElementById("weather").innerText = "Weather unavailable.";
+});
