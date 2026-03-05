@@ -4,51 +4,190 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kayden & Paige Life OS</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
 <style>
-body {
+body{
   margin:0;
-  font-family: Arial;
+  font-family:'Inter',sans-serif;
   background:#0e0e11;
   color:white;
-  padding:20px;
 }
-section {
-  background:#1a1a1f;
+header{
   padding:20px;
-  margin-bottom:20px;
-  border-radius:12px;
+  font-size:22px;
+  font-weight:700;
 }
-input,button {
-  padding:10px;
-  margin:5px 0;
+.card{
+  background:rgba(255,255,255,0.05);
+  margin:20px;
+  padding:20px;
+  border-radius:16px;
+  backdrop-filter:blur(10px);
+}
+input,button{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border-radius:10px;
   border:none;
-  border-radius:8px;
 }
-button {
+button{
   background:#c8c8c8;
-  font-weight:bold;
+  font-weight:600;
+}
+.hidden{
+  display:none;
+}
+.progress{
+  height:8px;
+  background:#222;
+  border-radius:10px;
+  overflow:hidden;
+  margin-top:10px;
+}
+.progress div{
+  height:100%;
+  width:0%;
+  background:#c8c8c8;
 }
 </style>
 </head>
 <body>
 
-<h1>Kayden & Paige Life OS</h1>
+<div id="auth">
+  <header>Life OS Login</header>
+  <div class="card">
+    <input id="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Password">
+    <button onclick="signup()">Sign Up</button>
+    <button onclick="login()">Login</button>
+  </div>
+</div>
 
-<section>
-<h2>Money Plan</h2>
-<input id="income" placeholder="Monthly Income">
-<input id="expenses" placeholder="Monthly Expenses">
-<button onclick="calculate()">Calculate</button>
-<p id="output"></p>
-</section>
+<div id="app" class="hidden">
+  <header>Kayden & Paige Life OS</header>
+
+  <div class="card">
+    <h3>Money Plan</h3>
+    <input id="income" placeholder="Monthly Income">
+    <input id="expenses" placeholder="Monthly Expenses">
+    <button onclick="saveFinance()">Save</button>
+    <div id="financeOutput"></div>
+    <div class="progress"><div id="progressBar"></div></div>
+  </div>
+
+  <div class="card">
+    <h3>Tasks</h3>
+    <input id="taskInput" placeholder="Add task">
+    <button onclick="addTask()">Add</button>
+    <ul id="taskList"></ul>
+  </div>
+
+  <div class="card">
+    <h3>Forecast</h3>
+    <div id="forecast"></div>
+  </div>
+
+  <button onclick="logout()">Logout</button>
+</div>
 
 <script>
-function calculate(){
-  const income = parseFloat(document.getElementById("income").value)||0;
-  const expenses = parseFloat(document.getElementById("expenses").value)||0;
-  const surplus = income-expenses;
-  document.getElementById("output").innerText =
-    "Monthly Surplus: $" + surplus.toFixed(2);
+/* FIREBASE CONFIG - PASTE YOURS BELOW */
+const firebaseConfig = {
+  apiKey: "PASTE_YOURS",
+  authDomain: "PASTE_YOURS",
+  projectId: "PASTE_YOURS",
+  storageBucket: "PASTE_YOURS",
+  messagingSenderId: "PASTE_YOURS",
+  appId: "PASTE_YOURS"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+/* AUTH */
+function signup(){
+  auth.createUserWithEmailAndPassword(email.value,password.value);
+}
+function login(){
+  auth.signInWithEmailAndPassword(email.value,password.value);
+}
+function logout(){
+  auth.signOut();
+}
+auth.onAuthStateChanged(user=>{
+  if(user){
+    authDiv.classList.add("hidden");
+    app.classList.remove("hidden");
+    loadFinance();
+    loadTasks();
+  }else{
+    authDiv.classList.remove("hidden");
+    app.classList.add("hidden");
+  }
+});
+const authDiv=document.getElementById("auth");
+
+/* FINANCE */
+function saveFinance(){
+  const incomeVal=parseFloat(income.value)||0;
+  const expenseVal=parseFloat(expenses.value)||0;
+
+  db.collection("household").doc("main").set({
+    income:incomeVal,
+    expenses:expenseVal
+  });
+}
+function loadFinance(){
+  db.collection("household").doc("main")
+  .onSnapshot(doc=>{
+    if(doc.exists){
+      const data=doc.data();
+      const surplus=data.income-data.expenses;
+      financeOutput.innerHTML="Monthly Surplus: $"+surplus.toFixed(2);
+
+      const percent=Math.min((surplus/2000)*100,100);
+      progressBar.style.width=percent+"%";
+
+      const emergency=data.expenses*6;
+      const months=surplus>0?(emergency/surplus):0;
+
+      forecast.innerHTML=
+        "Emergency Fund Target: $"+emergency.toFixed(0)+
+        "<br>Estimated Completion: "+
+        (months>0?months.toFixed(1)+" months":"Increase surplus");
+    }
+  });
+}
+
+/* TASKS */
+function addTask(){
+  if(!taskInput.value)return;
+  db.collection("household")
+    .doc("main")
+    .collection("tasks")
+    .add({text:taskInput.value});
+  taskInput.value="";
+}
+function loadTasks(){
+  db.collection("household")
+    .doc("main")
+    .collection("tasks")
+    .onSnapshot(snapshot=>{
+      taskList.innerHTML="";
+      snapshot.forEach(doc=>{
+        const li=document.createElement("li");
+        li.innerText=doc.data().text;
+        taskList.appendChild(li);
+      });
+    });
 }
 </script>
 
