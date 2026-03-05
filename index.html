@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kayden & Paige Life OS</title>
+<style>
+body {
+  margin:0;
+  font-family: Arial;
+  background:#0e0e11;
+  color:white;
+  padding:20px;
+}
+section {
+  background:#1a1a1f;
+  padding:20px;
+  margin-bottom:20px;
+  border-radius:12px;
+}
+input,button {
+  padding:10px;
+  margin:5px 0;
+  border:none;
+  border-radius:8px;
+}
+button {
+  background:#c8c8c8;
+  font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<h1>Kayden & Paige Life OS</h1>
+
+<section>
+<h2>Money Plan</h2>
+<input id="income" placeholder="Monthly Income">
+<input id="expenses" placeholder="Monthly Expenses">
+<button onclick="calculate()">Calculate</button>
+<p id="output"></p>
+</section>
+
+<script>
+function calculate(){
+  const income = parseFloat(document.getElementById("income").value)||0;
+  const expenses = parseFloat(document.getElementById("expenses").value)||0;
+  const surplus = income-expenses;
+  document.getElementById("output").innerText =
+    "Monthly Surplus: $" + surplus.toFixed(2);
+}
+</script>
+
+</body>
+</html>
