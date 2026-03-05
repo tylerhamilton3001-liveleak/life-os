@@ -3,210 +3,281 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kayden & Paige Life Dashboard</title>
-<link rel="stylesheet" href="style.css">
+<title>Kayden & Paige — Life Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:'Inter', sans-serif;
+  background:#0e0e11;
+  color:#ffffff;
+}
+.app{
+  display:flex;
+}
+.sidebar{
+  width:240px;
+  background:#15151a;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+}
+.sidebar button{
+  background:none;
+  border:none;
+  color:#c8c8c8;
+  padding:10px 0;
+  text-align:left;
+  cursor:pointer;
+  font-weight:500;
+}
+.sidebar button:hover{
+  color:#ffffff;
+}
+main{
+  flex:1;
+  padding:20px;
+}
+header{
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+.menu-btn{
+  display:none;
+  background:none;
+  border:none;
+  color:#c8c8c8;
+  font-size:20px;
+}
+.page{
+  display:none;
+}
+.page.active{
+  display:block;
+}
+.card{
+  background:#1a1a1f;
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:20px;
+  box-shadow:0 0 15px rgba(200,200,200,0.05);
+}
+input,button{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border-radius:8px;
+  border:none;
+  font-size:14px;
+}
+button{
+  background:#c8c8c8;
+  font-weight:600;
+}
+.progress{
+  background:#222;
+  height:8px;
+  border-radius:5px;
+  overflow:hidden;
+}
+.progress div{
+  height:100%;
+  background:#c8c8c8;
+  width:0%;
+}
+.quote{
+  text-align:center;
+  color:#c8c8c8;
+  margin-top:20px;
+  font-style:italic;
+}
+.subtitle{
+  color:#c8c8c8;
+}
+@media(max-width:768px){
+  .sidebar{
+    position:fixed;
+    left:-260px;
+    top:0;
+    height:100%;
+    transition:0.3s;
+  }
+  .sidebar.open{
+    left:0;
+  }
+  .menu-btn{
+    display:block;
+  }
+}
+</style>
 </head>
 <body>
 
-<div class="app">
+<!-- Authentication Section -->
+<div id="authSection">
+  <div class="card">
+    <h2>Welcome Back</h2>
+    <p class="subtitle">Log in or create an account to continue.</p>
+    <input id="email" placeholder="Email address">
+    <input id="password" type="password" placeholder="Password">
+    <button onclick="signup()">Create Account</button>
+    <button onclick="login()">Log In</button>
+  </div>
+</div>
 
-  <!-- Sidebar -->
+<!-- Main Application -->
+<div class="app" id="appSection" style="display:none;">
+
   <aside class="sidebar" id="sidebar">
-    <div class="logo">K&P</div>
-    <nav>
-      <button onclick="showPage('dashboard')">Dashboard</button>
-      <button onclick="showPage('money')">Money Plan</button>
-      <button onclick="showPage('kayden')">Jobs — Kayden</button>
-      <button onclick="showPage('paige')">Jobs — Paige</button>
-      <button onclick="showPage('housing')">Housing & Trailer</button>
-      <button onclick="showPage('transition')">Transition Plan</button>
-      <button onclick="showPage('countdowns')">Countdowns</button>
-      <button onclick="showPage('todo')">To-Do & Goals</button>
-      <button onclick="showPage('us')">Us</button>
-    </nav>
+    <button onclick="showPage('dashboard')">Dashboard</button>
+    <button onclick="showPage('money')">Money Plan</button>
+    <button onclick="logout()">Log Out</button>
   </aside>
 
-  <!-- Main -->
   <main>
     <header>
       <button class="menu-btn" onclick="toggleSidebar()">☰</button>
       <h1 id="pageTitle">Dashboard</h1>
     </header>
 
+    <!-- Dashboard -->
     <section id="dashboard" class="page active">
       <h2>Kayden & Paige’s Life Dashboard</h2>
       <p class="subtitle">Building our future together — one step at a time.</p>
 
-      <div class="grid">
-        <div class="card">
-          <h3>Time at Job Corps</h3>
-          <p id="timeSince"></p>
-        </div>
-
-        <div class="card">
-          <h3>Time Until We Leave</h3>
-          <p id="timeUntil"></p>
-        </div>
-
-        <div class="card">
-          <h3>Savings Progress</h3>
-          <div class="progress"><div id="savingsBar"></div></div>
-        </div>
-
-        <div class="card">
-          <h3>This Week’s Focus</h3>
-          <ul>
-            <li>Apply to 3 jobs</li>
-            <li>Save $100+</li>
-            <li>Trailer repair plan</li>
-          </ul>
-        </div>
+      <div class="card">
+        <h3>Time at Job Corps</h3>
+        <p id="timeSince"></p>
       </div>
 
-      <div class="quote">“Rise quietly. Build loudly.”</div>
+      <div class="card">
+        <h3>Savings Progress</h3>
+        <div class="progress"><div id="savingsBar"></div></div>
+      </div>
+
+      <div class="quote">“Rise quietly. Build boldly.”</div>
     </section>
 
+    <!-- Money Plan -->
     <section id="money" class="page">
       <h2>Money Plan</h2>
 
       <div class="card">
-        <h3>Budget</h3>
-        <ul>
-          <li>Rent $150</li>
-          <li>Food</li>
-          <li>Phone</li>
-          <li>Rides</li>
-          <li>Savings</li>
-          <li>Emergency</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <h3>Paycheck Breakdown</h3>
-        <input id="hourly" placeholder="Hourly Rate">
+        <h3>Income Calculator</h3>
+        <input id="hourly" placeholder="Hourly wage">
         <input id="hours" placeholder="Hours per week">
         <button onclick="calculatePay()">Calculate</button>
         <p id="payResult"></p>
       </div>
 
       <div class="card">
-        <h3>Goals</h3>
-        <ul>
-          <li>Trailer repairs</li>
-          <li>Furniture</li>
-          <li>Emergency cushion</li>
-          <li>Long-term house savings</li>
-        </ul>
-        <p class="note">“Start small. Build consistently.”</p>
-      </div>
-    </section>
-
-    <section id="kayden" class="page">
-      <h2>Jobs — Kayden</h2>
-
-      <div class="card">
-        <h3>Strengths</h3>
-        <p>Computer skills, typing, admin, Microsoft Office, communication</p>
-      </div>
-
-      <div class="card">
-        <h3>Growth</h3>
-        <p>Customer service, filing</p>
-      </div>
-
-      <div class="card">
-        <h3>Remote Targets</h3>
-        <p>Virtual Assistant, Data Entry, Office Support</p>
-      </div>
-
-      <div class="card">
-        <h3>Government / Local</h3>
-        <p>Court clerk, city hall, clinic aide</p>
-      </div>
-    </section>
-
-    <section id="paige" class="page">
-      <h2>Jobs — Paige</h2>
-
-      <div class="card">
-        <h3>Strengths</h3>
-        <p>Admin, writing, coordination, multitasking</p>
-      </div>
-
-      <div class="card">
-        <h3>Growth</h3>
-        <p>Customer service, filing</p>
-      </div>
-
-      <div class="card">
-        <h3>Remote Targets</h3>
-        <p>Virtual receptionist, office support</p>
-      </div>
-
-      <div class="card">
-        <h3>Local Roles</h3>
-        <p>Government aide, school clerk, clinic desk</p>
-      </div>
-    </section>
-
-    <section id="housing" class="page">
-      <h2>Housing & Trailer Setup</h2>
-
-      <div class="card">
-        <h3>Repairs</h3>
-        <ul>
-          <li>Priority 1 – Safety</li>
-          <li>Priority 2 – Structure</li>
-          <li>Priority 3 – Cosmetic</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <h3>Furniture</h3>
-        <p>Bed, shelves, table, kitchen setup, cleaning supplies</p>
-      </div>
-
-      <div class="card">
-        <p>Living with Aiden & girlfriend (rent $150)</p>
-      </div>
-    </section>
-
-    <section id="transition" class="page">
-      <h2>Transition Plan</h2>
-
-      <div class="card">
-        <p>Readiness: savings, job readiness, housing, skills, transportation</p>
-        <p>Exit checklist</p>
-        <p class="note">“We’re preparing not just to leave — but to grow.”</p>
-      </div>
-    </section>
-
-    <section id="countdowns" class="page">
-      <h2>Countdowns</h2>
-      <div class="card">
-        <p>Time since Job Corps start (01/04/26)</p>
-        <p id="sinceStart"></p>
-      </div>
-    </section>
-
-    <section id="todo" class="page">
-      <h2>To-Do & Goals</h2>
-      <div class="card">
-        <p>Daily, Weekly, 30 Days, 3–6 Months, 1–3 Years</p>
-      </div>
-    </section>
-
-    <section id="us" class="page">
-      <h2>Us</h2>
-      <div class="card">
-        <p>“We are not perfect — we are growing.”</p>
-        <p>“We don’t have to be ready. We just have to be willing.”</p>
+        <h3>Monthly Budget</h3>
+        <input id="income" placeholder="Total monthly income">
+        <input id="expenses" placeholder="Total monthly expenses">
+        <button onclick="saveFinance()">Save Budget</button>
+        <p id="financeOutput"></p>
       </div>
     </section>
 
   </main>
 </div>
 
-<script src="script.js"></script>
+<script>
+
+/* Firebase Configuration */
+const firebaseConfig = {
+  apiKey: "AIzaSyCjZHXDbRPp1YqRFl5RhYxjaBQr7iNW7Bo",
+  authDomain: "life-os-63da5.firebaseapp.com",
+  projectId: "life-os-63da5",
+  storageBucket: "life-os-63da5.firebasestorage.app",
+  messagingSenderId: "207532585286",
+  appId: "1:207532585286:web:d18c8067300e5d1c267547"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+/* Authentication */
+function signup(){
+  auth.createUserWithEmailAndPassword(email.value,password.value)
+  .catch(e=>alert(e.message));
+}
+function login(){
+  auth.signInWithEmailAndPassword(email.value,password.value)
+  .catch(e=>alert(e.message));
+}
+function logout(){
+  auth.signOut();
+}
+
+auth.onAuthStateChanged(user=>{
+  if(user){
+    authSection.style.display="none";
+    appSection.style.display="flex";
+    loadFinance();
+  } else {
+    authSection.style.display="block";
+    appSection.style.display="none";
+  }
+});
+
+/* Navigation */
+function showPage(id){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  pageTitle.innerText=document.getElementById(id).querySelector("h2").innerText;
+}
+function toggleSidebar(){
+  sidebar.classList.toggle("open");
+}
+
+/* Timer */
+function updateTimer(){
+  const start=new Date("2026-01-04");
+  const now=new Date();
+  const diff=now-start;
+  const days=Math.floor(diff/(1000*60*60*24));
+  timeSince.innerText=days+" days";
+}
+setInterval(updateTimer,1000);
+updateTimer();
+
+/* Pay Calculator */
+function calculatePay(){
+  const hourly=parseFloat(hourly.value)||0;
+  const hours=parseFloat(hours.value)||0;
+  const monthly=hourly*hours*4*0.85;
+  payResult.innerText="Estimated monthly income after tax: $" + monthly.toFixed(2);
+}
+
+/* Firestore */
+function saveFinance(){
+  db.collection("household").doc("main").set({
+    income:parseFloat(income.value)||0,
+    expenses:parseFloat(expenses.value)||0
+  });
+}
+function loadFinance(){
+  db.collection("household").doc("main")
+  .onSnapshot(doc=>{
+    if(doc.exists){
+      const data=doc.data();
+      const surplus=data.income-data.expenses;
+      financeOutput.innerText="Monthly surplus: $" + surplus.toFixed(2);
+      const percent=Math.min((surplus/2000)*100,100);
+      savingsBar.style.width=percent+"%";
+    }
+  });
+}
+
+</script>
 </body>
 </html>
