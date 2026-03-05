@@ -1,123 +1,284 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kayden & Paige — Life Dashboard</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<title>Kayden & Paige Life Dashboard</title>
+
 <link rel="stylesheet" href="style.css">
 
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
 </head>
 
 <body>
 
-<!-- ================= LOGIN SCREEN ================= -->
+<!-- LOGIN SCREEN -->
 
-<div id="authSection" class="auth-wrapper">
-  <div class="auth-card">
-    <h1>Kayden & Paige</h1>
-    <p class="subtitle">Life Dashboard</p>
+<div id="authSection" class="auth-container">
 
-    <input id="email" type="email" placeholder="Email">
-    
-    <div class="password-wrapper">
-      <input id="password" type="password" placeholder="Password">
-      <span onclick="togglePassword()">👁</span>
-    </div>
+<div class="login-card">
 
-    <div id="authError" class="error"></div>
+<h1>Kayden & Paige</h1>
+<p class="subtitle">Life Dashboard</p>
 
-    <button onclick="login()">Log In</button>
-    <button class="secondary" onclick="signup()">Create Account</button>
+<input id="email" type="email" placeholder="Email">
 
-    <p class="quote">“Building our future — together.”</p>
-  </div>
+<div class="password-row">
+<input id="password" type="password" placeholder="Password">
+<button onclick="togglePassword()">👁</button>
 </div>
 
-<!-- ================= MAIN APP ================= -->
+<button class="primary" onclick="login()">Login</button>
+<button class="secondary" onclick="signup()">Create Account</button>
 
-<div id="appSection" class="app" style="display:none;">
+<p id="authError"></p>
 
-  <aside class="sidebar">
-    <h2>K&P</h2>
-
-    <button onclick="showPage('dashboard')">Dashboard</button>
-    <button onclick="showPage('money')">Money Plan</button>
-    <button onclick="showPage('jobsKayden')">Jobs — Kayden</button>
-    <button onclick="showPage('jobsPaige')">Jobs — Paige</button>
-    <button onclick="showPage('housing')">Housing</button>
-    <button onclick="showPage('transition')">Transition</button>
-    <button onclick="showPage('countdowns')">Countdowns</button>
-    <button onclick="showPage('todo')">To-Do</button>
-    <button onclick="showPage('us')">Us</button>
-
-    <button class="logout" onclick="logout()">Log Out</button>
-  </aside>
-
-  <main>
-
-    <!-- DASHBOARD -->
-    <section id="dashboard" class="page active">
-      <h1>Kayden & Paige’s Life Dashboard</h1>
-      <p>Building our future together — one step at a time.</p>
-
-      <div class="card">
-        <h3>Time at Job Corps</h3>
-        <p id="timeSince"></p>
-      </div>
-
-      <div class="card">
-        <h3>Savings Progress</h3>
-        <div class="progress-bar">
-          <div id="progressFill"></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>This Week’s Focus</h3>
-        <ul>
-          <li>Apply to 3 jobs</li>
-          <li>Save consistently</li>
-          <li>Plan trailer repairs</li>
-        </ul>
-      </div>
-
-      <div class="card">
-  <h3>Weather</h3>
-  <p id="weather">Loading weather...</p>
 </div>
 
-      <div class="quote">“Rise quietly. Build boldly.”</div>
-    </section>
+</div>
 
-    <!-- MONEY -->
-    <section id="money" class="page">
-      <h1>Money Plan</h1>
 
-      <div class="card">
-        <h3>Paycheck Calculator</h3>
-        <input id="hourly" placeholder="Hourly wage">
-        <input id="hours" placeholder="Hours per week">
-        <button onclick="calculatePay()">Calculate</button>
-        <p id="payOutput"></p>
-      </div>
-    </section>
+<!-- MAIN APP -->
 
-    <!-- PLACEHOLDER PAGES -->
-    <section id="jobsKayden" class="page"><h1>Jobs — Kayden</h1></section>
-    <section id="jobsPaige" class="page"><h1>Jobs — Paige</h1></section>
-    <section id="housing" class="page"><h1>Housing & Trailer Setup</h1></section>
-    <section id="transition" class="page"><h1>Transition Plan</h1></section>
-    <section id="countdowns" class="page"><h1>Countdowns</h1></section>
-    <section id="todo" class="page"><h1>To-Do & Goals</h1></section>
-    <section id="us" class="page"><h1>Us</h1></section>
+<div id="appSection">
 
-  </main>
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<h2>Dashboard</h2>
+
+<button onclick="showPage('dashboard')">Home</button>
+<button onclick="showPage('money')">Money Plan</button>
+<button onclick="showPage('jobsKayden')">Jobs — Kayden</button>
+<button onclick="showPage('jobsPaige')">Jobs — Paige</button>
+<button onclick="showPage('housing')">Housing</button>
+<button onclick="showPage('transition')">Transition Plan</button>
+<button onclick="showPage('countdowns')">Countdowns</button>
+<button onclick="showPage('tasks')">To-Do</button>
+<button onclick="showPage('relationship')">Us</button>
+
+<button onclick="logout()" class="logout">Logout</button>
+
+</div>
+
+
+<!-- MAIN CONTENT -->
+
+<div class="main">
+
+<!-- DASHBOARD -->
+
+<div id="dashboard" class="page active">
+
+<h1>Kayden & Paige’s Life Dashboard</h1>
+<p>Building our future together — one step at a time.</p>
+
+<div class="grid">
+
+<div class="card">
+<h3>Time at Job Corps</h3>
+<p id="timeSince"></p>
+</div>
+
+<div class="card">
+<h3>Savings Progress</h3>
+<input id="savingsInput" placeholder="Current savings $">
+<button onclick="updateSavings()">Update</button>
+<p id="savingsOutput"></p>
+</div>
+
+<div class="card">
+<h3>Weather</h3>
+<p id="weather">Loading...</p>
+</div>
+
+<div class="card">
+<h3>Smart Suggestion</h3>
+<p id="suggestion"></p>
+</div>
+
+</div>
+
+<p class="quote">“Rise quietly. Build loudly.”</p>
+
+</div>
+
+
+<!-- MONEY -->
+
+<div id="money" class="page">
+
+<h1>Money Plan</h1>
+
+<div class="card">
+
+<h3>Pay Calculator</h3>
+
+<input id="hourly" placeholder="Hourly Pay">
+<input id="hours" placeholder="Hours per week">
+
+<button onclick="calculatePay()">Calculate</button>
+
+<p id="payOutput"></p>
+
+</div>
+
+<div class="card">
+
+<h3>Budget Planner</h3>
+
+<input placeholder="Rent ($150)">
+<input placeholder="Food">
+<input placeholder="Phone">
+<input placeholder="Transport">
+<input placeholder="Savings">
+
+</div>
+
+</div>
+
+
+<!-- JOBS KAYDEN -->
+
+<div id="jobsKayden" class="page">
+
+<h1>Jobs — Kayden</h1>
+
+<div class="card">
+<p>Virtual Assistant</p>
+<p>Data Entry</p>
+<p>Office Support</p>
+<p>Court Clerk</p>
+<p>Clinic Aide</p>
+</div>
+
+</div>
+
+
+<!-- JOBS PAIGE -->
+
+<div id="jobsPaige" class="page">
+
+<h1>Jobs — Paige</h1>
+
+<div class="card">
+<p>Virtual Receptionist</p>
+<p>Office Support</p>
+<p>School Clerk</p>
+<p>Government Aide</p>
+</div>
+
+</div>
+
+
+<!-- HOUSING -->
+
+<div id="housing" class="page">
+
+<h1>Housing & Trailer Setup</h1>
+
+<div class="card">
+
+<p>Living with Aiden & girlfriend</p>
+<p>Rent: $150</p>
+
+<ul>
+<li>Bed</li>
+<li>Shelves</li>
+<li>Table</li>
+<li>Kitchen Setup</li>
+<li>Cleaning Supplies</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<!-- TRANSITION -->
+
+<div id="transition" class="page">
+
+<h1>Transition Plan</h1>
+
+<div class="card">
+
+<p>Savings readiness</p>
+<p>Job readiness</p>
+<p>Housing readiness</p>
+<p>Transportation readiness</p>
+
+</div>
+
+<p class="quote">
+“We’re preparing not just to leave — but to grow.”
+</p>
+
+</div>
+
+
+<!-- COUNTDOWNS -->
+
+<div id="countdowns" class="page">
+
+<h1>Countdowns</h1>
+
+<div class="card">
+<p id="jobCorpsTimer"></p>
+</div>
+
+</div>
+
+
+<!-- TASKS -->
+
+<div id="tasks" class="page">
+
+<h1>To-Do & Goals</h1>
+
+<div class="card">
+
+<input id="taskInput" placeholder="Add task">
+
+<button onclick="addTask()">Add</button>
+
+<ul id="taskList"></ul>
+
+</div>
+
+</div>
+
+
+<!-- RELATIONSHIP -->
+
+<div id="relationship" class="page">
+
+<h1>Us</h1>
+
+<div class="card">
+
+<p>Our Why</p>
+<p>Relationship goals</p>
+<p>What we're building</p>
+
+</div>
+
+<p class="quote">
+“We are not perfect — we are growing.”
+</p>
+
+</div>
+
+</div>
+
 </div>
 
 <script src="script.js"></script>
