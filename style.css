@@ -1,125 +1,92 @@
 body{
-
 margin:0;
 font-family:Inter;
-background:#0f0f0f;
+background:#0f0f10;
 color:white;
-
+display:flex;
 }
 
 .sidebar{
-
 width:220px;
 background:#151515;
-height:100vh;
-position:fixed;
 padding:20px;
-
+display:flex;
+flex-direction:column;
+gap:10px;
 }
 
 .sidebar h2{
-
 color:#c8c8c8;
-
 }
 
 .sidebar button{
-
-width:100%;
-margin-top:8px;
-padding:10px;
-background:#222;
+background:none;
 border:none;
 color:white;
+text-align:left;
+padding:10px;
 cursor:pointer;
+}
 
+.sidebar button:hover{
+background:#1f1f1f;
 }
 
 .main{
-
-margin-left:240px;
+flex:1;
 padding:30px;
+}
 
+header h1{
+margin:0;
+}
+
+header p{
+color:#aaa;
 }
 
 .page{
-
 display:none;
-
+margin-top:20px;
 }
 
-.page.active{
-
-display:block;
-
-}
-
-.grid{
-
+.card-grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:20px;
-
 }
 
 .card{
-
-background:#1b1b1b;
+background:#1a1a1a;
 padding:20px;
-border-radius:12px;
-box-shadow:0 0 10px rgba(0,0,0,0.4);
-
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.6);
+display:flex;
+flex-direction:column;
+gap:10px;
 }
 
-input{
-
-width:100%;
+input,select,textarea,button{
 padding:10px;
-margin-top:10px;
-background:#222;
+border-radius:6px;
 border:none;
+background:#222;
 color:white;
-
 }
 
 button{
-
-margin-top:10px;
-padding:10px;
 background:#c8c8c8;
-border:none;
+color:black;
 cursor:pointer;
-
 }
 
-.progress{
-
+progress{
 width:100%;
 height:10px;
-background:#333;
-margin-top:10px;
-
-}
-
-#savingsBar{
-
-height:10px;
-background:#c8c8c8;
-width:0%;
-
 }
 
 .quote{
-
 margin-top:20px;
 color:#c8c8c8;
-
-}
-
-#map{
-
-height:300px;
-background:#222;
-margin-top:20px;
-
+font-style:italic;
 }
