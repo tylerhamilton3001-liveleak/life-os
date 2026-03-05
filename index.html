@@ -3,95 +3,68 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kayden & Paige: Life Dashboard</title>
+<title>Kayden & Paige — Life Dashboard</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 </head>
+
 <body>
 
 <!-- ================= LOGIN SCREEN ================= -->
 
 <div id="authSection" class="auth-wrapper">
-
   <div class="auth-card">
+    <h1>Kayden & Paige</h1>
+    <p class="subtitle">Life Dashboard</p>
 
-    <div class="auth-header">
-      <h1>Kayden & Paige</h1>
-      <p>Life Dashboard</p>
+    <input id="email" type="email" placeholder="Email">
+    
+    <div class="password-wrapper">
+      <input id="password" type="password" placeholder="Password">
+      <span onclick="togglePassword()">👁</span>
     </div>
 
-    <div class="auth-divider"></div>
+    <div id="authError" class="error"></div>
 
-    <div class="auth-body">
-      <h2>Welcome Back</h2>
-      <p class="auth-sub">Access your shared life system.</p>
+    <button onclick="login()">Log In</button>
+    <button class="secondary" onclick="signup()">Create Account</button>
 
-      <div class="input-group">
-        <input id="email" placeholder="Email address">
-      </div>
-
-      <div class="input-group password-group">
-        <input id="password" type="password" placeholder="Password">
-        <span class="toggle-password" onclick="togglePassword()">👁</span>
-      </div>
-
-      <div id="authError" class="error-message"></div>
-
-      <button class="primary-btn" onclick="login()" id="loginBtn">
-        <span id="loginText">Log In</span>
-        <span id="loginLoader" class="loader hidden"></span>
-      </button>
-
-      <button class="secondary-btn" onclick="signup()">
-        Create Account
-      </button>
-    </div>
-
-    <div class="auth-footer">
-      <p>“Building our future together.”</p>
-    </div>
-
+    <p class="quote">“Building our future — together.”</p>
   </div>
-
 </div>
 
 <!-- ================= MAIN APP ================= -->
 
-<div class="app" id="appSection" style="display:none;">
+<div id="appSection" class="app" style="display:none;">
 
-  <aside class="sidebar" id="sidebar">
-    <div class="logo">K&P</div>
+  <aside class="sidebar">
+    <h2>K&P</h2>
 
     <button onclick="showPage('dashboard')">Dashboard</button>
     <button onclick="showPage('money')">Money Plan</button>
-    <button onclick="showPage('jobsKayden')">Jobs: Kayden</button>
-    <button onclick="showPage('jobsPaige')">Jobs: Paige</button>
-    <button onclick="showPage('housing')">Housing & Trailer</button>
-    <button onclick="showPage('transition')">Transition Plan</button>
+    <button onclick="showPage('jobsKayden')">Jobs — Kayden</button>
+    <button onclick="showPage('jobsPaige')">Jobs — Paige</button>
+    <button onclick="showPage('housing')">Housing</button>
+    <button onclick="showPage('transition')">Transition</button>
     <button onclick="showPage('countdowns')">Countdowns</button>
-    <button onclick="showPage('todo')">To-Do & Goals</button>
+    <button onclick="showPage('todo')">To-Do</button>
     <button onclick="showPage('us')">Us</button>
 
-    <div style="margin-top:auto;">
-      <button onclick="logout()">Log Out</button>
-    </div>
+    <button class="logout" onclick="logout()">Log Out</button>
   </aside>
 
   <main>
-    <header>
-      <button class="menu-btn" onclick="toggleSidebar()">☰</button>
-      <h1 id="pageTitle">Dashboard</h1>
-    </header>
 
     <!-- DASHBOARD -->
     <section id="dashboard" class="page active">
-      <h2>Kayden & Paige’s Life Dashboard</h2>
-      <p class="subtitle">Building our future together, one step at a time.</p>
+      <h1>Kayden & Paige’s Life Dashboard</h1>
+      <p>Building our future together — one step at a time.</p>
 
       <div class="card">
         <h3>Time at Job Corps</h3>
@@ -100,7 +73,9 @@
 
       <div class="card">
         <h3>Savings Progress</h3>
-        <div class="progress"><div id="savingsBar"></div></div>
+        <div class="progress-bar">
+          <div id="progressFill"></div>
+        </div>
       </div>
 
       <div class="card">
@@ -108,7 +83,7 @@
         <ul>
           <li>Apply to 3 jobs</li>
           <li>Save consistently</li>
-          <li>Trailer repair planning</li>
+          <li>Plan trailer repairs</li>
         </ul>
       </div>
 
@@ -117,81 +92,30 @@
 
     <!-- MONEY -->
     <section id="money" class="page">
-      <h2>Money Plan</h2>
+      <h1>Money Plan</h1>
 
       <div class="card">
-        <h3>Income Calculator</h3>
+        <h3>Paycheck Calculator</h3>
         <input id="hourly" placeholder="Hourly wage">
         <input id="hours" placeholder="Hours per week">
         <button onclick="calculatePay()">Calculate</button>
-        <p id="payResult"></p>
-      </div>
-
-      <div class="card">
-        <h3>Monthly Budget</h3>
-        <input id="income" placeholder="Total monthly income">
-        <input id="expenses" placeholder="Total monthly expenses">
-        <button onclick="saveFinance()">Save Budget</button>
-        <p id="financeOutput"></p>
+        <p id="payOutput"></p>
       </div>
     </section>
 
-    <!-- OTHER PAGES (Structured placeholders for expansion) -->
-
-    <section id="jobsKayden" class="page">
-      <h2>Jobs — Kayden</h2>
-      <div class="card">
-        <p>Computer skills, typing, administrative work, Microsoft Office, communication.</p>
-      </div>
-    </section>
-
-    <section id="jobsPaige" class="page">
-      <h2>Jobs — Paige</h2>
-      <div class="card">
-        <p>Administrative work, writing, coordination, multitasking.</p>
-      </div>
-    </section>
-
-    <section id="housing" class="page">
-      <h2>Housing & Trailer Setup</h2>
-      <div class="card">
-        <p>Repair priorities, furniture checklist, and move-in planning.</p>
-      </div>
-    </section>
-
-    <section id="transition" class="page">
-      <h2>Transition Plan</h2>
-      <div class="card">
-        <p>Preparing not just to leave — but to grow.</p>
-      </div>
-    </section>
-
-    <section id="countdowns" class="page">
-      <h2>Countdowns</h2>
-      <div class="card">
-        <p id="sinceStart"></p>
-      </div>
-    </section>
-
-    <section id="todo" class="page">
-      <h2>To-Do & Goals</h2>
-      <div class="card">
-        <p>Daily, weekly, short-term, and long-term planning.</p>
-      </div>
-    </section>
-
-    <section id="us" class="page">
-      <h2>Us</h2>
-      <div class="card">
-        <p>“We are not perfect, we are growing.”</p>
-        <p>“We don’t have to be ready. We just have to be willing.”</p>
-      </div>
-    </section>
+    <!-- PLACEHOLDER PAGES -->
+    <section id="jobsKayden" class="page"><h1>Jobs — Kayden</h1></section>
+    <section id="jobsPaige" class="page"><h1>Jobs — Paige</h1></section>
+    <section id="housing" class="page"><h1>Housing & Trailer Setup</h1></section>
+    <section id="transition" class="page"><h1>Transition Plan</h1></section>
+    <section id="countdowns" class="page"><h1>Countdowns</h1></section>
+    <section id="todo" class="page"><h1>To-Do & Goals</h1></section>
+    <section id="us" class="page"><h1>Us</h1></section>
 
   </main>
-
 </div>
 
 <script src="script.js"></script>
+
 </body>
 </html>
