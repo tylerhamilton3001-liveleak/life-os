@@ -3,128 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kayden & Paige — Life Dashboard</title>
+<title>Kayden & Paige: Life Dashboard</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-
-<style>
-body{
-  margin:0;
-  font-family:'Inter', sans-serif;
-  background:#0e0e11;
-  color:#ffffff;
-}
-.app{
-  display:flex;
-}
-.sidebar{
-  width:240px;
-  background:#15151a;
-  padding:20px;
-  display:flex;
-  flex-direction:column;
-}
-.sidebar button{
-  background:none;
-  border:none;
-  color:#c8c8c8;
-  padding:10px 0;
-  text-align:left;
-  cursor:pointer;
-  font-weight:500;
-}
-.sidebar button:hover{
-  color:#ffffff;
-}
-main{
-  flex:1;
-  padding:20px;
-}
-header{
-  display:flex;
-  align-items:center;
-  gap:20px;
-}
-.menu-btn{
-  display:none;
-  background:none;
-  border:none;
-  color:#c8c8c8;
-  font-size:20px;
-}
-.page{
-  display:none;
-}
-.page.active{
-  display:block;
-}
-.card{
-  background:#1a1a1f;
-  padding:20px;
-  border-radius:12px;
-  margin-bottom:20px;
-  box-shadow:0 0 15px rgba(200,200,200,0.05);
-}
-input,button{
-  width:100%;
-  padding:10px;
-  margin-top:10px;
-  border-radius:8px;
-  border:none;
-  font-size:14px;
-}
-button{
-  background:#c8c8c8;
-  font-weight:600;
-}
-.progress{
-  background:#222;
-  height:8px;
-  border-radius:5px;
-  overflow:hidden;
-}
-.progress div{
-  height:100%;
-  background:#c8c8c8;
-  width:0%;
-}
-.quote{
-  text-align:center;
-  color:#c8c8c8;
-  margin-top:20px;
-  font-style:italic;
-}
-.subtitle{
-  color:#c8c8c8;
-}
-@media(max-width:768px){
-  .sidebar{
-    position:fixed;
-    left:-260px;
-    top:0;
-    height:100%;
-    transition:0.3s;
-  }
-  .sidebar.open{
-    left:0;
-  }
-  .menu-btn{
-    display:block;
-  }
-}
-</style>
 </head>
 <body>
 
-<!-- Authentication Section -->
+<!-- ================= LOGIN SCREEN ================= -->
+
 <div id="authSection" class="auth-wrapper">
 
   <div class="auth-card">
-    
+
     <div class="auth-header">
       <h1>Kayden & Paige</h1>
       <p>Life Dashboard</p>
@@ -134,30 +29,57 @@ button{
 
     <div class="auth-body">
       <h2>Welcome Back</h2>
-      <p class="auth-sub">Sign in or create your shared account.</p>
+      <p class="auth-sub">Access your shared life system.</p>
 
-      <input id="email" placeholder="Email address">
-      <input id="password" type="password" placeholder="Password">
+      <div class="input-group">
+        <input id="email" placeholder="Email address">
+      </div>
 
-      <button class="primary-btn" onclick="login()">Log In</button>
-      <button class="secondary-btn" onclick="signup()">Create Account</button>
+      <div class="input-group password-group">
+        <input id="password" type="password" placeholder="Password">
+        <span class="toggle-password" onclick="togglePassword()">👁</span>
+      </div>
+
+      <div id="authError" class="error-message"></div>
+
+      <button class="primary-btn" onclick="login()" id="loginBtn">
+        <span id="loginText">Log In</span>
+        <span id="loginLoader" class="loader hidden"></span>
+      </button>
+
+      <button class="secondary-btn" onclick="signup()">
+        Create Account
+      </button>
     </div>
 
     <div class="auth-footer">
-      <p>“Building our future — together.”</p>
+      <p>“Building our future together.”</p>
     </div>
 
   </div>
 
 </div>
 
-<!-- Main Application -->
+<!-- ================= MAIN APP ================= -->
+
 <div class="app" id="appSection" style="display:none;">
 
   <aside class="sidebar" id="sidebar">
+    <div class="logo">K&P</div>
+
     <button onclick="showPage('dashboard')">Dashboard</button>
     <button onclick="showPage('money')">Money Plan</button>
-    <button onclick="logout()">Log Out</button>
+    <button onclick="showPage('jobsKayden')">Jobs: Kayden</button>
+    <button onclick="showPage('jobsPaige')">Jobs: Paige</button>
+    <button onclick="showPage('housing')">Housing & Trailer</button>
+    <button onclick="showPage('transition')">Transition Plan</button>
+    <button onclick="showPage('countdowns')">Countdowns</button>
+    <button onclick="showPage('todo')">To-Do & Goals</button>
+    <button onclick="showPage('us')">Us</button>
+
+    <div style="margin-top:auto;">
+      <button onclick="logout()">Log Out</button>
+    </div>
   </aside>
 
   <main>
@@ -166,10 +88,10 @@ button{
       <h1 id="pageTitle">Dashboard</h1>
     </header>
 
-    <!-- Dashboard -->
+    <!-- DASHBOARD -->
     <section id="dashboard" class="page active">
       <h2>Kayden & Paige’s Life Dashboard</h2>
-      <p class="subtitle">Building our future together — one step at a time.</p>
+      <p class="subtitle">Building our future together, one step at a time.</p>
 
       <div class="card">
         <h3>Time at Job Corps</h3>
@@ -181,10 +103,19 @@ button{
         <div class="progress"><div id="savingsBar"></div></div>
       </div>
 
+      <div class="card">
+        <h3>This Week’s Focus</h3>
+        <ul>
+          <li>Apply to 3 jobs</li>
+          <li>Save consistently</li>
+          <li>Trailer repair planning</li>
+        </ul>
+      </div>
+
       <div class="quote">“Rise quietly. Build boldly.”</div>
     </section>
 
-    <!-- Money Plan -->
+    <!-- MONEY -->
     <section id="money" class="page">
       <h2>Money Plan</h2>
 
@@ -205,98 +136,62 @@ button{
       </div>
     </section>
 
+    <!-- OTHER PAGES (Structured placeholders for expansion) -->
+
+    <section id="jobsKayden" class="page">
+      <h2>Jobs — Kayden</h2>
+      <div class="card">
+        <p>Computer skills, typing, administrative work, Microsoft Office, communication.</p>
+      </div>
+    </section>
+
+    <section id="jobsPaige" class="page">
+      <h2>Jobs — Paige</h2>
+      <div class="card">
+        <p>Administrative work, writing, coordination, multitasking.</p>
+      </div>
+    </section>
+
+    <section id="housing" class="page">
+      <h2>Housing & Trailer Setup</h2>
+      <div class="card">
+        <p>Repair priorities, furniture checklist, and move-in planning.</p>
+      </div>
+    </section>
+
+    <section id="transition" class="page">
+      <h2>Transition Plan</h2>
+      <div class="card">
+        <p>Preparing not just to leave — but to grow.</p>
+      </div>
+    </section>
+
+    <section id="countdowns" class="page">
+      <h2>Countdowns</h2>
+      <div class="card">
+        <p id="sinceStart"></p>
+      </div>
+    </section>
+
+    <section id="todo" class="page">
+      <h2>To-Do & Goals</h2>
+      <div class="card">
+        <p>Daily, weekly, short-term, and long-term planning.</p>
+      </div>
+    </section>
+
+    <section id="us" class="page">
+      <h2>Us</h2>
+      <div class="card">
+        <p>“We are not perfect, we are growing.”</p>
+        <p>“We don’t have to be ready. We just have to be willing.”</p>
+      </div>
+    </section>
+
   </main>
+
 </div>
 
-<script>
-
-/* Firebase Configuration */
-const firebaseConfig = {
-  apiKey: "AIzaSyCjZHXDbRPp1YqRFl5RhYxjaBQr7iNW7Bo",
-  authDomain: "life-os-63da5.firebaseapp.com",
-  projectId: "life-os-63da5",
-  storageBucket: "life-os-63da5.firebasestorage.app",
-  messagingSenderId: "207532585286",
-  appId: "1:207532585286:web:d18c8067300e5d1c267547"
-};
-
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-
-/* Authentication */
-function signup(){
-  auth.createUserWithEmailAndPassword(email.value,password.value)
-  .catch(e=>alert(e.message));
-}
-function login(){
-  auth.signInWithEmailAndPassword(email.value,password.value)
-  .catch(e=>alert(e.message));
-}
-function logout(){
-  auth.signOut();
-}
-
-auth.onAuthStateChanged(user=>{
-  if(user){
-    authSection.style.display="none";
-    appSection.style.display="flex";
-    loadFinance();
-  } else {
-    authSection.style.display="block";
-    appSection.style.display="none";
-  }
-});
-
-/* Navigation */
-function showPage(id){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  pageTitle.innerText=document.getElementById(id).querySelector("h2").innerText;
-}
-function toggleSidebar(){
-  sidebar.classList.toggle("open");
-}
-
-/* Timer */
-function updateTimer(){
-  const start=new Date("2026-01-04");
-  const now=new Date();
-  const diff=now-start;
-  const days=Math.floor(diff/(1000*60*60*24));
-  timeSince.innerText=days+" days";
-}
-setInterval(updateTimer,1000);
-updateTimer();
-
-/* Pay Calculator */
-function calculatePay(){
-  const hourly=parseFloat(hourly.value)||0;
-  const hours=parseFloat(hours.value)||0;
-  const monthly=hourly*hours*4*0.85;
-  payResult.innerText="Estimated monthly income after tax: $" + monthly.toFixed(2);
-}
-
-/* Firestore */
-function saveFinance(){
-  db.collection("household").doc("main").set({
-    income:parseFloat(income.value)||0,
-    expenses:parseFloat(expenses.value)||0
-  });
-}
-function loadFinance(){
-  db.collection("household").doc("main")
-  .onSnapshot(doc=>{
-    if(doc.exists){
-      const data=doc.data();
-      const surplus=data.income-data.expenses;
-      financeOutput.innerText="Monthly surplus: $" + surplus.toFixed(2);
-      const percent=Math.min((surplus/2000)*100,100);
-      savingsBar.style.width=percent+"%";
-    }
-  });
-}
-
-</script>
+<script src="script.js"></script>
 </body>
 </html>
