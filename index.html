@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -10,128 +8,190 @@
 
 <link rel="stylesheet" href="style.css">
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<script src="script.js" defer></script>
 
 </head>
 
 <body>
 
+<!-- Sidebar -->
+
 <div class="sidebar">
 
 <h2>Life OS</h2>
 
-<button onclick="showPage('dashboard')">Dashboard</button>
-<button onclick="showPage('money')">Money Plan</button>
-<button onclick="showPage('jobs')">Jobs</button>
-<button onclick="showPage('jobtracker')">Applications</button>
-<button onclick="showPage('housing')">Housing</button>
-<button onclick="showPage('schedule')">Daily Plan</button>
-<button onclick="showPage('tasks')">To-Do</button>
-<button onclick="showPage('fitness')">Fitness</button>
-<button onclick="showPage('stores')">Stores & Food</button>
-<button onclick="showPage('countdowns')">Countdowns</button>
-<button onclick="showPage('relationship')">Us</button>
+<button onclick="openPage('dashboard')">Dashboard</button>
+<button onclick="openPage('money')">Money Plan</button>
+<button onclick="openPage('jobsKayden')">Jobs — Kayden</button>
+<button onclick="openPage('jobsPaige')">Jobs — Paige</button>
+<button onclick="openPage('housing')">Housing</button>
+<button onclick="openPage('transition')">Transition Plan</button>
+<button onclick="openPage('countdowns')">Countdowns</button>
+<button onclick="openPage('todo')">To-Do & Goals</button>
+<button onclick="openPage('us')">Us</button>
+<button onclick="openPage('map')">Map</button>
 
 </div>
 
 <div class="main">
 
-<!-- DASHBOARD -->
-
-<div id="dashboard" class="page active">
+<header>
 
 <h1>Kayden & Paige’s Life Dashboard</h1>
-<p class="subtitle">Building our future together — one step at a time.</p>
 
-<div class="grid">
+<p>Building our future together — one step at a time.</p>
+
+</header>
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="page">
+
+<div class="card-grid">
 
 <div class="card">
+
 <h3>Time at Job Corps</h3>
-<p id="jobCorpsTime"></p>
+
+<div id="jobCorpsTime"></div>
+
 </div>
 
 <div class="card">
-<h3>Weather</h3>
-<p id="weather"></p>
+
+<h3>Time Until Completion</h3>
+
+<input type="date" id="completionDate">
+
+<div id="completionCountdown"></div>
+
 </div>
 
 <div class="card">
+
 <h3>Savings Progress</h3>
 
-<input id="savingsInput" placeholder="Enter savings amount">
+<input type="number" id="currentSavings" placeholder="Current savings">
+<input type="number" id="goalSavings" placeholder="Goal">
 
-<button onclick="updateSavings()">Update</button>
-
-<div class="progress">
-<div id="savingsBar"></div>
-</div>
-
-<p id="savingsOutput"></p>
+<progress id="savingsBar" value="0" max="100"></progress>
 
 </div>
 
 <div class="card">
-<h3>This Week's Focus</h3>
-<p id="suggestion"></p>
+
+<h3>This Week’s Focus</h3>
+
+<select id="weeklyFocus">
+
+<option>Save Money</option>
+<option>Job Applications</option>
+<option>Trailer Repairs</option>
+<option>Skill Building</option>
+<option>Relationship Time</option>
+
+</select>
+
 </div>
 
 </div>
 
 <p class="quote">“Rise quietly. Build loudly.”</p>
 
-</div>
+</section>
 
-<!-- MONEY -->
+<!-- MONEY PLAN -->
 
-<div id="money" class="page">
+<section id="money" class="page">
 
-<h1>Money Plan</h1>
+<h2>Money Plan</h2>
 
 <div class="card">
 
-<h3>Paycheck Breakdown</h3>
+<h3>Monthly Budget</h3>
 
-<input id="hourly" placeholder="Hourly Rate">
-<input id="hours" placeholder="Hours per Week">
+<label>Rent ($150)</label>
+<input type="number" id="rent" value="150">
+
+<label>Food</label>
+<input type="number" id="food">
+
+<label>Phone</label>
+<input type="number" id="phone">
+
+<label>Rides</label>
+<input type="number" id="rides">
+
+<label>Savings</label>
+<input type="number" id="savings">
+
+<label>Emergency</label>
+<input type="number" id="emergency">
+
+</div>
+
+<div class="card">
+
+<h3>Paycheck Planner</h3>
+
+<label>Hourly Rate</label>
+<input type="number" id="hourly">
+
+<label>Hours per Week</label>
+<input type="number" id="hours">
 
 <button onclick="calculatePay()">Calculate</button>
 
-<p id="payOutput"></p>
+<p id="payResult"></p>
 
 </div>
 
 <div class="card">
 
-<h3>Budget</h3>
+<h3>Money Suggestions</h3>
 
-<input id="rent" placeholder="Rent $150">
-<input id="food" placeholder="Food">
-<input id="phone" placeholder="Phone">
-<input id="rides" placeholder="Rides">
-<input id="savings" placeholder="Savings">
-<input id="emergency" placeholder="Emergency">
+<ul>
 
-<button onclick="calculateBudget()">Calculate Budget</button>
+<li>Save at least 20% of take-home pay</li>
+<li>Build $1000 emergency cushion</li>
+<li>Repair trailer before buying furniture</li>
+<li>Split savings: 60% emergency / 40% future house</li>
 
-<p id="budgetOutput"></p>
+</ul>
 
-</div>
-
-<p class="note">“Start small. Build consistently.”</p>
+<p>“Start small. Build consistently.”</p>
 
 </div>
 
-<!-- JOBS -->
+</section>
 
-<div id="jobs" class="page">
+<!-- JOBS KAYDEN -->
 
-<h1>Job Suggestions</h1>
+<section id="jobsKayden" class="page">
 
-<div class="grid">
+<h2>Jobs — Kayden</h2>
 
 <div class="card">
 
-<h3>Kayden</h3>
+<h3>Strengths</h3>
+
+<ul>
+
+<li>Computer Skills</li>
+<li>Typing</li>
+<li>Admin</li>
+<li>Microsoft Office</li>
+<li>Communication</li>
+
+</ul>
+
+</div>
+
+<div class="card">
+
+<h3>Suggested Jobs</h3>
 
 <ul>
 
@@ -139,7 +199,31 @@
 <li>Data Entry</li>
 <li>Office Support</li>
 <li>Court Clerk</li>
+<li>City Hall Assistant</li>
 <li>Clinic Aide</li>
+
+</ul>
+
+</div>
+
+</section>
+
+<!-- JOBS PAIGE -->
+
+<section id="jobsPaige" class="page">
+
+<h2>Jobs — Paige</h2>
+
+<div class="card">
+
+<h3>Strengths</h3>
+
+<ul>
+
+<li>Admin</li>
+<li>Writing</li>
+<li>Coordination</li>
+<li>Multitasking</li>
 
 </ul>
 
@@ -147,7 +231,7 @@
 
 <div class="card">
 
-<h3>Paige</h3>
+<h3>Suggested Jobs</h3>
 
 <ul>
 
@@ -155,165 +239,189 @@
 <li>Office Support</li>
 <li>School Clerk</li>
 <li>Clinic Desk</li>
+<li>Government Aide</li>
 
 </ul>
 
 </div>
 
-</div>
-
-</div>
-
-<!-- JOB TRACKER -->
-
-<div id="jobtracker" class="page">
-
-<h1>Job Application Tracker</h1>
-
-<input id="jobCompany" placeholder="Company">
-<input id="jobTitle" placeholder="Position">
-
-<button onclick="addJob()">Add Job</button>
-
-<ul id="jobList"></ul>
-
-</div>
+</section>
 
 <!-- HOUSING -->
 
-<div id="housing" class="page">
+<section id="housing" class="page">
 
-<h1>Housing & Trailer Setup</h1>
+<h2>Housing & Trailer Setup</h2>
 
 <div class="card">
 
 <h3>Trailer Checklist</h3>
 
-<ul>
+<label><input type="checkbox"> Plumbing</label>
+<label><input type="checkbox"> Electricity</label>
+<label><input type="checkbox"> Roof</label>
+<label><input type="checkbox"> Heating</label>
 
-<li>Roof inspection</li>
-<li>Plumbing check</li>
-<li>Electric check</li>
+</div>
 
-</ul>
+<div class="card">
 
 <h3>Furniture</h3>
 
-<ul>
-
-<li>Bed</li>
-<li>Shelves</li>
-<li>Table</li>
-<li>Kitchen items</li>
-<li>Cleaning supplies</li>
-
-</ul>
-
-<p>Living with Aiden & girlfriend — Rent $150</p>
+<label><input type="checkbox"> Bed</label>
+<label><input type="checkbox"> Shelves</label>
+<label><input type="checkbox"> Table</label>
+<label><input type="checkbox"> Kitchen Supplies</label>
+<label><input type="checkbox"> Cleaning Supplies</label>
 
 </div>
 
+<p>Living with Aiden & girlfriend (rent $150)</p>
+
+</section>
+
+<!-- TRANSITION -->
+
+<section id="transition" class="page">
+
+<h2>Transition Plan</h2>
+
+<div class="card">
+
+<h3>Readiness</h3>
+
+<label>Savings</label>
+<input type="range">
+
+<label>Job Readiness</label>
+<input type="range">
+
+<label>Housing</label>
+<input type="range">
+
+<label>Skills</label>
+<input type="range">
+
+<label>Transportation</label>
+<input type="range">
+
 </div>
 
-<!-- SCHEDULE -->
+<p>“We’re preparing not just to leave — but to grow.”</p>
 
-<div id="schedule" class="page">
+</section>
 
-<h1>Job Corps Daily Schedule</h1>
+<!-- COUNTDOWNS -->
 
-<ul>
+<section id="countdowns" class="page">
 
-<li>Morning routine</li>
-<li>Job Corps training</li>
-<li>Skill practice</li>
-<li>Apply to jobs</li>
-<li>Workout</li>
-<li>Couple planning</li>
+<h2>Countdowns</h2>
 
-</ul>
+<div class="card">
+
+<h3>Time Since Job Corps Start</h3>
+
+<p id="sinceStart"></p>
 
 </div>
 
-<!-- TASKS -->
+<div class="card">
 
-<div id="tasks" class="page">
+<h3>Add New Countdown</h3>
 
-<h1>To-Do & Goals</h1>
+<input type="text" id="countdownName" placeholder="Event name">
 
-<input id="taskInput" placeholder="Add task">
+<input type="date" id="countdownDate">
 
-<button onclick="addTask()">Add</button>
+<button onclick="addCountdown()">Add</button>
+
+<div id="countdownList"></div>
+
+</div>
+
+</section>
+
+<!-- TODO -->
+
+<section id="todo" class="page">
+
+<h2>To-Do & Goals</h2>
+
+<div class="card">
+
+<input id="taskInput" placeholder="New task">
+
+<button onclick="addTask()">Add Task</button>
 
 <ul id="taskList"></ul>
 
 </div>
 
-<!-- FITNESS -->
-
-<div id="fitness" class="page">
-
-<h1>Fitness Tracker</h1>
-
-<input placeholder="Water Intake">
-<input placeholder="Steps">
-<input placeholder="Workout Today">
-
-</div>
-
-<!-- STORES -->
-
-<div id="stores" class="page">
-
-<h1>Nearby Stores & Restaurants</h1>
-
-<ul>
-
-<li>Walmart</li>
-<li>Target</li>
-<li>Aldi</li>
-<li>Dollar Tree</li>
-<li>CVS</li>
-<li>Walgreens</li>
-<li>McDonald's</li>
-<li>Subway</li>
-
-</ul>
-
-<div id="map"></div>
-
-</div>
-
-<!-- COUNTDOWNS -->
-
-<div id="countdowns" class="page">
-
-<h1>Countdowns</h1>
-
-<p id="countdown"></p>
-
-</div>
+</section>
 
 <!-- RELATIONSHIP -->
 
-<div id="relationship" class="page">
+<section id="us" class="page">
 
-<h1>Us</h1>
+<h2>Us</h2>
 
-<p>Our Why</p>
-<p>Relationship goals</p>
-<p>What we’re building</p>
-<p>Pride list</p>
-<p>Support list</p>
+<div class="card">
+
+<h3>Our Why</h3>
+
+<textarea></textarea>
+
+</div>
+
+<div class="card">
+
+<h3>Relationship Goals</h3>
+
+<textarea></textarea>
+
+</div>
+
+<div class="card">
+
+<h3>Pride List</h3>
+
+<textarea></textarea>
+
+</div>
+
+<div class="card">
+
+<h3>Support List</h3>
+
+<textarea></textarea>
+
+</div>
 
 <p>“We are not perfect — we are growing.”</p>
 
 <p>“We don’t have to be ready. We just have to be willing.”</p>
 
-</div>
+</section>
+
+<!-- MAP -->
+
+<section id="map" class="page">
+
+<h2>Places</h2>
+
+<iframe
+
+width="100%"
+
+height="400"
+
+src="https://maps.google.com/maps?q=restaurants&t=&z=13&ie=UTF8&iwloc=&output=embed">
+
+</iframe>
+
+</section>
 
 </div>
-
-<script src="script.js"></script>
 
 </body>
 </html>
