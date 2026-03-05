@@ -121,15 +121,34 @@ button{
 <body>
 
 <!-- Authentication Section -->
-<div id="authSection">
-  <div class="card">
-    <h2>Welcome Back</h2>
-    <p class="subtitle">Log in or create an account to continue.</p>
-    <input id="email" placeholder="Email address">
-    <input id="password" type="password" placeholder="Password">
-    <button onclick="signup()">Create Account</button>
-    <button onclick="login()">Log In</button>
+<div id="authSection" class="auth-wrapper">
+
+  <div class="auth-card">
+    
+    <div class="auth-header">
+      <h1>Kayden & Paige</h1>
+      <p>Life Dashboard</p>
+    </div>
+
+    <div class="auth-divider"></div>
+
+    <div class="auth-body">
+      <h2>Welcome Back</h2>
+      <p class="auth-sub">Sign in or create your shared account.</p>
+
+      <input id="email" placeholder="Email address">
+      <input id="password" type="password" placeholder="Password">
+
+      <button class="primary-btn" onclick="login()">Log In</button>
+      <button class="secondary-btn" onclick="signup()">Create Account</button>
+    </div>
+
+    <div class="auth-footer">
+      <p>“Building our future — together.”</p>
+    </div>
+
   </div>
+
 </div>
 
 <!-- Main Application -->
